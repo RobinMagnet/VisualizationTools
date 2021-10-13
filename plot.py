@@ -103,3 +103,45 @@ def plot_corr(mesh1, mesh2, p2p, n_points=10, pretty=True, param=[-2, -1, 3], di
     for ind in fps2:
         p.add_lines(vert1[p2p[ind]], vert2[ind],
                     shading={"line_color": matplotlib.colors.to_hex(cmap2[ind])})
+
+
+def double_plot(myMesh1, myMesh2, cmap1=None, cmap2=None, pretty=False, rotation=None, shading=None,
+                colormap='viridis', colormap2=None, flat=False, shading2=None):
+    if colormap2 is None:
+        colormap2 = colormap
+
+    shading_m1 = {}
+    if pretty:
+        shading_m1 = utils.get_smooth_shading(flat=flat)
+    if shading is not None:
+        shading_m1.update(shading)
+
+    shading_m2 = {}
+    if shading2 is None:
+        shading_m2 = shading_m1
+    else:
+        if pretty:
+            shading_m2 = utils.get_smooth_shading(flat=flat)
+        shading_m2.update(shading2)
+
+
+    if cmap1 is None:
+        cmap1 = base_cmap(myMesh1.n_vertices, pc=myMesh1.n_faces == 0)
+    elif cmap1.ndim == 1:
+        cmap1 = get_cmap(cmap1, colormap=colormap)
+
+    if cmap2 is None:
+        cmap2 = base_cmap(myMesh2.n_vertices, pc=myMesh2.n_faces == 0)
+    elif cmap2.ndim == 1:
+        cmap2 = get_cmap(cmap2, colormap=colormap2)
+
+    mesh_vert1 = rotate(myMesh1.vertlist, rotation=rotation)
+    mesh_faces1 = myMesh1.facelist
+
+    mesh_vert2 = rotate(myMesh2.vertlist, rotation=rotation)
+    mesh_faces2 = myMesh2.facelist
+
+    d = mp.subplot(mesh_vert1, mesh_faces1, c=cmap1, s=[2, 2, 0], shading=shading)
+    p = mp.subplot(mesh_vert2, mesh_faces2, c=cmap2, s=[2, 2, 1], shading=shading2, data=d)
+
+    return d
