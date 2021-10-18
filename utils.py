@@ -1,8 +1,5 @@
 import numpy as np
-import meshplot as mp
 import matplotlib.pyplot as plt
-from pyFM.mesh import TriMesh
-import matplotlib.colors
 
 
 def base_cmap(n_vert, pc=False):
@@ -213,6 +210,18 @@ def vert2_rgb_mesh(mesh, pretty=True, param=[-2, -1, 3], n_colors=-1):
 
 
 def rotate(vertices, rotation=None):
+    """
+    rotate one vertex or multiple vertices with a given rotation
+
+    Parameters
+    ----------------------------
+    vertices : (n,3) or (3,) - x,y,z coordinates of vertices
+    rotation : (3,3) - matrix of rotation
+
+    Output
+    ----------------------------
+    rotated_vertices : (n,3) or (3,) rotated vertices
+    """
     if rotation is None:
         return vertices
 
@@ -220,6 +229,56 @@ def rotate(vertices, rotation=None):
 
 
 def get_smooth_shading(flat=False):
+    """
+    Some basic shading parameters for rough texture
+
+    Parameters
+    ----------------------------
+    flat : bool - whether to use flat faces or not
+
+    Output
+    ----------------------------
+    shading : shading parameters for meshplot
+    """
     shading = {"flat": flat, "metalness": 0.25, "reflectivity": 0, "roughness": .9}
 
     return shading
+
+
+def _find_shading(shading=None, pretty=True, flat=False):
+    """
+    Compute some basic shading and update it with given values
+
+    Parameters
+    ---------------------------
+    shading : dict - shading parameters to enforce
+    pretty  : bool - if True, uses `get_smooth_shading`
+    flat    : bool - whether to use flat shading or smooth
+    """
+    new_shading = dict()
+    if pretty:
+        new_shading = get_smooth_shading(flat=flat)
+
+    if shading is not None:
+        new_shading.update(shading)
+
+    return new_shading
+
+
+def _find_cmap(mesh1, cmap=None, colormap='viridis'):
+    """
+    Returns either the cmap itself, white values or transforms
+    scalar values into RGB values.
+
+    Parameters
+    ---------------------------
+    mesh1     : TriMesh - must have n_vertices and n_faces attributes
+    cmap      : None, or (n,3) or (n,) - nothing, RGB or scalar values
+    colormap  : colormap to use when converting scalar to RGB
+    """
+    if cmap is None:
+        cmap = base_cmap(mesh1.n_vertices, pc=(mesh1.n_faces == 0))
+    elif cmap.ndim == 1:  # Scalar quantity
+        cmap = get_cmap(cmap, colormap=colormap)
+
+    return cmap
