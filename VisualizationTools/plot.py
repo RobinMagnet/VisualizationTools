@@ -76,7 +76,7 @@ def plot(mesh1, cmap=None, points=None, cmap_p=None, rotation=None, colormap='vi
     return p
 
 
-def plot_lines(mesh1, mesh2, p2p, n_points=10, pretty=True, dist_ratio=1, rotation=None,
+def plot_lines(mesh1, mesh2, p2p, n_points=10, pretty=False, dist_ratio=1, rotation=None,
                rev=False, shading=None, param=[-2, -1, 3], flat=False):
     """
     Plot two meshes in correspondences with mathcing colors and some random lines between
@@ -187,11 +187,11 @@ def double_plot(mesh1, mesh2, cmap1=None, cmap2=None, pretty=False, rotation=Non
     if colormap2 is None:
         colormap2 = colormap
 
-    shading_m1 = utils._find_shading(shading=shading, pretty=pretty, falt=flat)
+    shading_m1 = utils._find_shading(shading=shading, pretty=pretty, flat=flat)
     if shading2 is None:
         shading_m2 = shading_m1
     else:
-        shading_m2 = utils._find_shading(shading=shading2, pretty=pretty, falt=flat)
+        shading_m2 = utils._find_shading(shading=shading2, pretty=pretty, flat=flat)
 
     # Obtain RGB colormaps
     cmap1 = utils._find_cmap(mesh1, cmap=cmap1, colormap=colormap)
@@ -209,7 +209,7 @@ def double_plot(mesh1, mesh2, cmap1=None, cmap2=None, pretty=False, rotation=Non
     return p
 
 
-def plot_p2p(mesh1, mesh2, p2p, rotation=None, pretty=True, rev=False, shading=None, n_colors=-1,
+def plot_p2p(mesh1, mesh2, p2p, rotation=None, pretty=False, rev=False, shading=None, n_colors=-1,
              param=[-2, -1, 3], flat=False):
     """
     Plot two meshes in correspondences on two separate Viewers.

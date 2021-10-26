@@ -170,7 +170,7 @@ def digitize_cmap(cmap, n_colors):
     return cmap
 
 
-def vert2rgb(vertices, pretty=True, param=[-2, -1, 3], n_colors=-1):
+def vert2rgb(vertices, pretty=False, param=[-2, -1, 3], n_colors=-1):
     """
     Convert (x,y,z) coordinates of vertices to RGB values, using either `vertices_to_rgb_basic` or
     `vertices_to_rgb_basic`.
@@ -201,7 +201,7 @@ def vert2rgb(vertices, pretty=True, param=[-2, -1, 3], n_colors=-1):
     return cmap
 
 
-def vert2_rgb_mesh(mesh, pretty=True, param=[-2, -1, 3], n_colors=-1):
+def vert2_rgb_mesh(mesh, pretty=False, param=[-2, -1, 3], n_colors=-1):
     """
     Similar to `vert2rgb` but takes a TriMesh as an input.
     """
@@ -245,7 +245,7 @@ def get_smooth_shading(flat=False):
     return shading
 
 
-def _find_shading(shading=None, pretty=True, flat=False):
+def _find_shading(shading=None, pretty=False, flat=False):
     """
     Compute some basic shading and update it with given values
 
