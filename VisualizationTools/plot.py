@@ -34,6 +34,10 @@ def plot(mesh1, cmap=None, points=None, cmap_p=None, rotation=None, colormap='vi
         shading_m = utils.get_smooth_shading(flat=flat)
     if shading is not None:
         shading_m.update(shading)
+        if 'flat' not in shading.keys():
+            shading_m['flat'] = flat
+    if shading is None and not pretty:
+        shading_m['flat'] = flat
 
     # Compute RGB colormap
     if cmap is None:
